@@ -2,8 +2,6 @@ from Bio import SeqIO, Entrez
 import pandas as pd
 import argparse
 
-Entrez.email = "lcorrea@lcg.unam.mx"
-
 # Get GC content 
 
 def gc_content(sequence):
@@ -55,15 +53,21 @@ if __name__ == "__main__":
     parser.add_argument("--input", help="FASTA file")
     parser.add_argument("--id", help="NCBI accession ID")
     parser.add_argument("--output", default="results_output.csv")
+    parser.add_argument("--email", help="Email for NCBI (required if using --id)")
     args = parser.parse_args()
     results = []
+    if args.id:
+        if not args.email:
+            print("Must provide --email to use NCBI")
+            exit()
+        Entrez.email = args.email
     # Saving the default input or use the NCBI id 
     if args.input:
         results = analyze_fasta(args.input)
     elif args.id:
         record = fetch_sequence(args.id)
         # save downloaded FAST file 
-        with open("../data/downloaded.fasta", "w") as f:
+        with open("data/downloaded.fasta", "w") as f:
             SeqIO.write(record, f, "fasta")
         results.append(analyze_record(record))
     else:

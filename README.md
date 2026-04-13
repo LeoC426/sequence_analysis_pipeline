@@ -13,7 +13,7 @@ A Python-based bioinformatics pipeline for analyzing DNA sequences from FASTA fi
 python src/main.py --input data/sample.fasta --output output_name.csv 
 
 ### Usage with NCBI data
-python scr/main.py --id NCBI_ID --output output_name.csv
+python scr/main.py --id NCBI_ID --output output_name.csv --email your@email.com
 
 ### Output
 CSV file with sequence statistics
